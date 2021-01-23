@@ -86,7 +86,7 @@ module.exports = {
 
         delete data.image
 
-        const result = await updateCategoryModel(ctId, req.body)
+        const result = await updateCategoryModel(ctId, data)
 
         if (result.affectedRows) {
           statusUpdate(res, result)
