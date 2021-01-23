@@ -72,7 +72,7 @@ module.exports = {
       const query = `
         UPDATE cart
            SET ?
-         WHERE cs_id = ${crId}
+         WHERE cr_id = ${crId}
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
