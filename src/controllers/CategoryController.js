@@ -52,7 +52,7 @@ module.exports = {
     req.body.image = req.file === undefined ? '' : req.file.filename
     const data = {
       ...req.body,
-      cr_pic_image: req.body.image
+      ct_pic_image: req.body.image
     }
     delete data.image
 
