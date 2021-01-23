@@ -1,4 +1,4 @@
-const { createCart, getCartByCsId, deleteCartByCsId, updateCartByCsId } = require('../models/CartModel')
+const { createCart, getAllCartByCsId, getCartByCrId, deleteCartByCrId, updateCartByCrId } = require('../models/CartModel')
 
 const {
   statusGet,
@@ -37,7 +37,7 @@ module.exports = {
     const { csId } = req.params
 
     try {
-      const result = await getCartByCsId(csId)
+      const result = await getAllCartByCsId(csId)
 
       if (result.length) {
         statusGet(res, result)
@@ -48,13 +48,13 @@ module.exports = {
       statusServerError(res)
     }
   },
-  deleteCartByCsId: async (req, res, _next) => {
+  deleteCartByCrId: async (req, res, _next) => {
     try {
-      const { csId } = req.params
-      const findData = await getCartByCsId(csId)
+      const { crId } = req.params
+      const findData = await getCartByCrId(crId)
 
       if (findData.length) {
-        const result = await deleteCartByCsId(csId)
+        const result = await deleteCartByCrId(crId)
 
         if (result.affectedRows) {
           statusDelete(res)
@@ -68,11 +68,11 @@ module.exports = {
       statusServerError(res)
     }
   },
-  updateCartByCsId: async (req, res, _next) => {
-    const { csId } = req.params
+  updateCartByCrId: async (req, res, _next) => {
+    const { crId } = req.params
 
     try {
-      const findData = await getCartByCsId(csId)
+      const findData = await getCartByCrId(crId)
 
       if (findData.length) {
         req.body.image = req.file === undefined ? findData[0].cr_pic_image : req.file.filename
@@ -81,12 +81,10 @@ module.exports = {
           ...req.body,
           cr_pic_image: req.body.image
         }
-        console.log(data)
-        console.log(csId)
 
         delete data.image
 
-        const result = await updateCartByCsId(csId, data)
+        const result = await updateCartByCrId(crId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)
