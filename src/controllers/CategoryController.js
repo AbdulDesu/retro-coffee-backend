@@ -17,31 +17,7 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
-  addCategory: async (req, res, _next) => {
-    req.body.ct_pic_image = req.file === undefined ? '' : req.file.filename
-
-    const data = {
-      ...req.body,
-      ct_pic_image: req.body.ct_pic_image
-    }
-
-    delete data.ct_pic_image
-
-    try {
-      const result = await addCategoryModel(req.body)
-
-      if (result.affectedRows) {
-        statusCreate(res)
-      } else {
-        statusCreateFail(res)
-      }
-    } catch (err) {
-      console.log(err)
-      statusServerError(res)
-    }
-  },
-
-  getAllCategory: async (req, res, _next) => {
+  getAllCategory: async (_req, res, _next) => {
     try {
       const result = await getAllCategoryModel()
 
@@ -57,10 +33,10 @@ module.exports = {
   },
 
   getCategoryById: async (req, res, _next) => {
-    const { ct_id } = req.params
+    const { ctId } = req.params
 
     try {
-      const result = await getCategoryByIDModel(ct_id)
+      const result = await getCategoryByIDModel(ctId)
       if (result.length) {
         statusGet(res, result)
       } else {
@@ -72,46 +48,45 @@ module.exports = {
     }
   },
 
-  updateCategory: async (req, res, _next) => {
-    const { ct_id } = req.params
+  addCategory: async (req, res, _next) => {
+    req.body.image = req.file === undefined ? '' : req.file.filename
+    const data = {
+      ...req.body,
+      cr_pic_image: req.body.image
+    }
+    delete data.image
 
     try {
-      const caughtData = await getCategoryByIDModel(ct_id)
+      const result = await addCategoryModel(data)
 
-      if (caughtData.length) {
-        const result = await updateCategoryModel(ct_id, req.body)
-
-        if (result.affectedRows) {
-          statusUpdate(res, result)
-        } else {
-          statusNotFound(res)
-        }
+      if (result.affectedRows) {
+        statusCreate(res)
       } else {
-        statusNotFound(res)
+        statusCreateFail(res)
       }
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.log(err)
       statusServerError(res)
     }
   },
 
-  updateCategoryWithImage: async (req, res, _next) => {
-    const { ct_id } = req.params
-
-    req.body.ct_pic_image = req.file === undefined ? '' : req.file.filename
-
-    const data = {
-      ...req.body,
-      ct_pic_image: req.body.ct_pic_image
-    }
-
-    delete data.ct_pic_image
+  updateCategory: async (req, res, _next) => {
+    const { ctId } = req.params
 
     try {
-      const caughtData = await getCategoryByIDModel(ct_id)
+      const caughtData = await getCategoryByIDModel(ctId)
 
       if (caughtData.length) {
-        const result = await updateCategoryModel(ct_id, req.body)
+        req.body.image = req.file === undefined ? caughtData[0].ct_pic_image : req.file.filename
+
+        const data = {
+          ...req.body,
+          ct_pic_image: req.body.image
+        }
+
+        delete data.image
+
+        const result = await updateCategoryModel(ctId, req.body)
 
         if (result.affectedRows) {
           statusUpdate(res, result)
@@ -128,13 +103,13 @@ module.exports = {
   },
 
   deleteCategory: async (req, res, _next) => {
-    const { ct_id } = req.params
+    const { ctId } = req.params
 
     try {
-      const caughtData = await getCategoryByIDModel(ct_id)
+      const caughtData = await getCategoryByIDModel(ctId)
 
       if (caughtData.length) {
-        const result = await deleteCategoryModel(ct_id)
+        const result = await deleteCategoryModel(ctId)
 
         if (result.affectedRows) {
           statusDelete(res, result)

@@ -20,7 +20,7 @@ module.exports = {
   getAllCategoryModel: () => {
     return new Promise((resolve, reject) => {
       const query = `
-            SELECT * FROM category ORDER BY RAND()
+            SELECT * FROM category ORDER BY ct_id
           `
       dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
