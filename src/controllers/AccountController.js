@@ -58,7 +58,7 @@ module.exports = {
             ac_email: login[0].ac_email,
             ac_phone: login[0].ac_phone,
             ac_level: login[0].ac_level,
-            ac_status: login[0].ac_phone,
+            ac_status: login[0].ac_status,
             cs_id: login[0].cs_id
           }
           const token = jwt.sign(peyLoad, 'retrocoffee', { expiresIn: '7d' })
@@ -75,7 +75,6 @@ module.exports = {
         statusNotFoundAccount(res)
       }
     } catch (error) {
-      console.log(error)
       statusServerError(res)
     }
   },
