@@ -6,17 +6,16 @@ const {
   getAllCategory,
   getCategoryById,
   updateCategory,
-  updateCategoryWithImage,
   deleteCategory
 } = require('../src/controllers/CategoryController')
 
-const uploadCategoryPic = require('../src/middleware/multer_category')
+const uploadImage = require('../src/middleware/multer')
+const { authorization } = require('../src/middleware/auth')
 
-router.get('/', getAllCategory)
-router.get('/:ct_id', getCategoryById)
-router.post('/add/', uploadCategoryPic, addCategory)
-router.put('/update/:ct_id', updateCategory)
-router.put('/update/image/:ct_id', uploadCategoryPic, updateCategoryWithImage)
-router.delete('/delete/:ct_id', deleteCategory)
+router.get('/', authorization, getAllCategory)
+router.get('/:ctId', authorization, getCategoryById)
+router.post('/', authorization, uploadImage, addCategory)
+router.put('/:ctId', authorization, updateCategory)
+router.delete('/:ctId', authorization, deleteCategory)
 
 module.exports = router
