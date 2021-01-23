@@ -9,20 +9,19 @@ const {
   getProductByHigherPrice,
   getProductByLowerPrice,
   updateProduct,
-  updateProductWithImage,
   deleteProduct
 } = require('../src/controllers/ProductController')
 
 const uploadImage = require('../src/middleware/multer')
+const { authorization } = require('../src/middleware/auth')
 
-router.get('/', getAllProduct)
-router.get('/:pr_id', getProductById)
-router.get('/filter/category', getProductByCategory)
-router.get('/filter/higher', getProductByHigherPrice)
-router.get('/filter/lower', getProductByLowerPrice)
-router.post('/add/', uploadImage, addProduct)
-router.put('/update/:pr_id', updateProduct)
-router.put('/update/image/:pr_id', uploadImage, updateProductWithImage)
-router.delete('/delete/:pr_id', deleteProduct)
+router.get('/', authorization, getAllProduct)
+router.get('/:prId', authorization, getProductById)
+router.get('/filter/category', authorization, getProductByCategory)
+router.get('/filter/higher', authorization, getProductByHigherPrice)
+router.get('/filter/lower', authorization, getProductByLowerPrice)
+router.post('/', authorization, uploadImage, addProduct)
+router.put('/:prId', authorization, uploadImage, updateProduct)
+router.delete('/:prId', authorization, deleteProduct)
 
 module.exports = router
