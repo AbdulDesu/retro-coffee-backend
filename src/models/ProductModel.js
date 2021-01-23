@@ -17,32 +17,72 @@ module.exports = {
     })
   },
 
-  getAllProductModel: (searchKey, searchValue, limit, offset, callback) => {
-    dbConnect.query(`
-    SELECT 
-    p.pr_id, 
-    ct.ct_id, 
-    ct.ct_name,
-    ct.ct_pic_image,
-    p.pr_name, 
-    p.pr_price, 
-    p.pr_desc,
-    p.pr_discount,
-    p.pr_discount_price,
-    p.pr_is_discount, 
-    p.pr_status,
-    p.pr_pic_image,
-    p.pr_created_at,
-    p.pr_updated_at
-    FROM product as p
-    INNER JOIN category as ct
-    ON p.ct_id = ct.ct_id
-    WHERE ${searchKey} LIKE '%${searchValue}%' ORDER BY p.pr_id DESC LIMIT ${limit} OFFSET ${offset}`, (err, result, fields) => {
-      if (!err) {
-        callback(result)
-      } else {
-        callback(err)
-      }
+  getAllData: () => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM product p
+          JOIN category ct
+            ON p.ct_id = ct.ct_id
+         WHERE p.pr_is_discount = 0
+      ORDER BY p.pr_id DESC
+      `
+
+      dbConnect.query(query, (err, result, _fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+
+  getAllProductModel: (paginate) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM product p
+          JOIN category ct
+            ON p.ct_id = ct.ct_id
+         WHERE p.pr_is_discount = 0
+      ORDER BY p.pr_id DESC 
+        LIMIT ${paginate.limit}
+        OFFSET ${paginate.offset}
+      `
+
+      dbConnect.query(query, (err, result, _fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+
+  getSearchProductModel: (paginate) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM product pr
+          JOIN category ct
+            ON pr.ct_id = ct.ct_id
+         WHERE pr.pr_is_discount = 0
+           AND pr.pr_name
+          LIKE '%${paginate.search}%'            
+      ORDER BY pr.pr_id ASC
+         LIMIT ${paginate.limit} 
+        OFFSET ${paginate.offset}
+      `
+
+      dbConnect.query(query, (err, results, _fields) => {
+        if (!err) {
+          resolve(results)
+        } else {
+          reject(err)
+        }
+      })
     })
   },
 
