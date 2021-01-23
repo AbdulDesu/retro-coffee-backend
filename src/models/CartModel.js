@@ -17,7 +17,7 @@ module.exports = {
       })
     })
   },
-  getCartByCsId: (csId) => {
+  getAllCartByCsId: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
@@ -34,14 +34,15 @@ module.exports = {
       })
     })
   },
-  deleteCartByCsId: (csId) => {
+  getCartByCrId: (crId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        DELETE FROM cart
+        SELECT *
+          FROM cart
          WHERE ?
       `
 
-      dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {
+      dbConnect.query(query, { cr_id: crId }, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
@@ -50,12 +51,28 @@ module.exports = {
       })
     })
   },
-  updateCartByCsId: (csId, data) => {
+  deleteCartByCrId: (crId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        DELETE FROM cart
+         WHERE ?
+      `
+
+      dbConnect.query(query, { cr_id: crId }, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+  updateCartByCrId: (crId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE cart
            SET ?
-         WHERE cs_id = ${csId}
+         WHERE cs_id = ${crId}
       `
 
       dbConnect.query(query, data, (error, results, _fields) => {
