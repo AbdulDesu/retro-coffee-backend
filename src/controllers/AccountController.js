@@ -75,6 +75,7 @@ module.exports = {
         statusNotFoundAccount(res)
       }
     } catch (error) {
+      console.log(error)
       statusServerError(res)
     }
   },
