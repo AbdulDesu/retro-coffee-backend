@@ -4,6 +4,7 @@ const {
   addProductModel,
   getAllData,
   getAllProductModel,
+  getAllProductByIdCategoryModel,
   getSearchProductModel,
   getProductByIDModel,
   getProductByCategoryNameModel,
@@ -51,6 +52,52 @@ module.exports = {
 
       if (isEmpty(search)) {
         result = await getAllProductModel(paginate)
+      } else {
+        result = await getSearchProductModel(paginate)
+      }
+
+      if (result.length) {
+        const totalData = await getAllData()
+        const totalPage = Math.ceil(totalData.length / limit)
+
+        statusGetPaginate(res, result, totalPage)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      console.log(error)
+      statusServerError(res)
+    }
+  },
+
+  getAllProductByIdCategory: async (req, res) => {
+    const { ctId } = req.params
+    let { search, limit, page } = req.query
+
+    if (!limit) {
+      limit = 25
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const paginate = {
+      ctId: ctId,
+      search: search,
+      limit: limit,
+      offset: (page - 1) * limit
+    }
+
+    try {
+      let result
+
+      if (isEmpty(search)) {
+        result = await getAllProductByIdCategoryModel(paginate)
       } else {
         result = await getSearchProductModel(paginate)
       }
