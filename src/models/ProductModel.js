@@ -61,6 +61,30 @@ module.exports = {
     })
   },
 
+  getAllProductByIdCategoryModel: (paginate) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM product p
+          JOIN category ct
+            ON p.ct_id = ct.ct_id
+         WHERE p.pr_is_discount = 0
+           AND p.ct_id = ${paginate.ctId}
+      ORDER BY p.pr_id DESC 
+        LIMIT ${paginate.limit}
+        OFFSET ${paginate.offset}
+      `
+
+      dbConnect.query(query, (err, result, _fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+
   getSearchProductModel: (paginate) => {
     return new Promise((resolve, reject) => {
       const query = `
