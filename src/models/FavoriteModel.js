@@ -73,6 +73,25 @@ module.exports = {
       })
     })
   },
+  checkIsFavorite: (faId, csId, prId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT *
+        FROM favorite
+       WHERE fa_id = ${faId}         
+         AND cs_id = ${csId}
+         AND pr_id = ${prId}
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
   deleteFavoriteByFaId: (faId) => {
     return new Promise((resolve, reject) => {
       const query = `
