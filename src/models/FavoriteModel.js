@@ -73,13 +73,12 @@ module.exports = {
       })
     })
   },
-  checkIsFavorite: (faId, csId, prId) => {
+  checkIsFavorite: (csId, prId) => {
     return new Promise((resolve, reject) => {
       const query = `
       SELECT *
         FROM favorite
-       WHERE fa_id = ${faId}         
-         AND cs_id = ${csId}
+       WHERE cs_id = ${csId}
          AND pr_id = ${prId}
       `
 
