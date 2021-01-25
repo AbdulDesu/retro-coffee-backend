@@ -1,4 +1,4 @@
-const { createFavorite, getFavoriteByCsId, deleteFavoriteByFaId, getFavoriteByFaId } = require('../models/FavoriteModel')
+const { createFavorite, getFavoriteByCsId, checkIsFavorite, deleteFavoriteByFaId, getFavoriteByFaId } = require('../models/FavoriteModel')
 
 const {
   statusGet,
@@ -31,6 +31,22 @@ module.exports = {
 
     try {
       const result = await getFavoriteByCsId(csId)
+
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      statusServerError(res)
+    }
+  },
+
+  checkIsFavorite: async (req, res, _next) => {
+    const { faId, csId, prId } = req.query
+
+    try {
+      const result = await checkIsFavorite(faId, csId, prId)
 
       if (result.length) {
         statusGet(res, result)
