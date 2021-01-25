@@ -73,6 +73,24 @@ module.exports = {
       })
     })
   },
+  getFavoriteByProduct: (csId, prId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT *
+        FROM favorite
+       WHERE cs_id = ${csId}
+         AND pr_id = ${prId}
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
   checkIsFavorite: (csId, prId) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -99,6 +117,24 @@ module.exports = {
       `
 
       dbConnect.query(query, { fa_id: faId }, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
+  deleteFavoriteByProduct: (csId, prId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        DELETE FROM favorite
+         WHERE cs_id = ${csId}
+           AND pr_id = ${prId}
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
