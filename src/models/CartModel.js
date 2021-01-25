@@ -17,6 +17,7 @@ module.exports = {
       })
     })
   },
+
   getAllCartByCsId: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -34,6 +35,7 @@ module.exports = {
       })
     })
   },
+
   getCartByCrId: (crId) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -51,6 +53,7 @@ module.exports = {
       })
     })
   },
+
   deleteCartByCrId: (crId) => {
     return new Promise((resolve, reject) => {
       const query = `
@@ -67,6 +70,7 @@ module.exports = {
       })
     })
   },
+
   updateCartByCrId: (crId, data) => {
     return new Promise((resolve, reject) => {
       const query = `

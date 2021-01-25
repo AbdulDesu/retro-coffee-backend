@@ -14,15 +14,8 @@ const {
 
 module.exports = {
   createCart: async (req, res, _next) => {
-    req.body.image = req.file === undefined ? '' : req.file.filename
-    const data = {
-      ...req.body,
-      cr_pic_image: req.body.image
-    }
-    delete data.image
-
     try {
-      const result = await createCart(data)
+      const result = await createCart(req.body)
       if (result.affectedRows) {
         statusCreate(res)
       } else {
@@ -33,6 +26,7 @@ module.exports = {
       statusServerError(res)
     }
   },
+
   getAllCartByCsId: async (req, res, _next) => {
     const { csId } = req.params
 
@@ -48,6 +42,7 @@ module.exports = {
       statusServerError(res)
     }
   },
+
   deleteCartByCrId: async (req, res, _next) => {
     try {
       const { crId } = req.params
@@ -68,6 +63,7 @@ module.exports = {
       statusServerError(res)
     }
   },
+
   updateCartByCrId: async (req, res, _next) => {
     const { crId } = req.params
 
@@ -75,16 +71,7 @@ module.exports = {
       const findData = await getCartByCrId(crId)
 
       if (findData.length) {
-        req.body.image = req.file === undefined ? findData[0].cr_pic_image : req.file.filename
-
-        const data = {
-          ...req.body,
-          cr_pic_image: req.body.image
-        }
-
-        delete data.image
-
-        const result = await updateCartByCrId(crId, data)
+        const result = await updateCartByCrId(crId, req.body)
 
         if (result.affectedRows) {
           statusUpdate(res)
