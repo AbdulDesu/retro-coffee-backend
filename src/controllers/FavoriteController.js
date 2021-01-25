@@ -1,4 +1,12 @@
-const { createFavorite, getFavoriteByCsId, checkIsFavorite, deleteFavoriteByFaId, getFavoriteByFaId } = require('../models/FavoriteModel')
+const {
+  createFavorite,
+  getFavoriteByCsId,
+  checkIsFavorite,
+  deleteFavoriteByFaId,
+  deleteFavoriteByProduct,
+  getFavoriteByFaId,
+  getFavoriteByProduct
+} = require('../models/FavoriteModel')
 
 const {
   statusGet,
@@ -65,6 +73,27 @@ module.exports = {
 
       if (findData.length) {
         const result = await deleteFavoriteByFaId(faId)
+
+        if (result.affectedRows) {
+          statusDelete(res)
+        } else {
+          statusDeleteFail(res)
+        }
+      } else {
+        statusNotFound(res)
+      }
+    } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  deleteFavoriteByProduct: async (req, res, _next) => {
+    try {
+      const { csId, prId } = req.query
+      const findData = await getFavoriteByProduct(csId, prId)
+
+      if (findData.length) {
+        const result = await deleteFavoriteByProduct(csId, prId)
 
         if (result.affectedRows) {
           statusDelete(res)
