@@ -43,10 +43,10 @@ module.exports = {
   },
 
   checkIsFavorite: async (req, res, _next) => {
-    const { faId, csId, prId } = req.query
+    const { csId, prId } = req.query
 
     try {
-      const result = await checkIsFavorite(faId, csId, prId)
+      const result = await checkIsFavorite(csId, prId)
 
       if (result.length) {
         statusGet(res, result)
