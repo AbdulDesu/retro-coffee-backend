@@ -104,6 +104,7 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (err) {
+      console.log(err)
       statusServerError(res)
     }
   }
