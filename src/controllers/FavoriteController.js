@@ -90,7 +90,7 @@ module.exports = {
   deleteFavoriteByProduct: async (req, res, _next) => {
     try {
       const { csId, prId } = req.query
-      const findData = await getFavoriteByProduct(csId, prId)
+      const findData = await checkIsFavorite(csId, prId)
 
       if (findData.length) {
         const result = await deleteFavoriteByProduct(csId, prId)
