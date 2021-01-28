@@ -1,10 +1,10 @@
 const mysql = require('mysql')
 
 const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'retro',
-  password: '123456',
-  database: 'db_retro_coffee'
+    host: 'localhost',
+    user: 'retro',
+    password: '123456',
+    database: 'db_retro_coffee'
 })
 
 /* const conn = mysql.createConnection({
@@ -15,11 +15,11 @@ const conn = mysql.createConnection({
 }) */
 
 conn.connect(err => {
-  if (err) {
-    console.error(err)
-  } else {
-    console.log('Database connected!')
-  }
+    if (err) {
+        console.error(err)
+    } else {
+        console.log('Database connected!')
+    }
 })
 
 module.exports = conn
