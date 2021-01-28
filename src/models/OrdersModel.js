@@ -64,5 +64,24 @@ module.exports = {
         }
       })
     })
+  },
+
+  updateOrdersStatus: (csId, orId, data) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+          UPDATE account
+             SET ?
+           WHERE cs_id = ${csId}
+             AND or_id = ${orId}
+          `
+      dbConnect.query(query, data, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          console.log(error)
+          reject(error)
+        }
+      })
+    })
   }
 }
