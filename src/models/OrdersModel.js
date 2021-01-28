@@ -4,6 +4,10 @@ const {
   getAllCartByCsId
 } = require('../models/CartModel')
 
+const {
+  createHis
+} = require('../models/HistoryModel')
+
 module.exports = {
   createOrders: (data) => {
     return new Promise((resolve, reject) => {
@@ -28,6 +32,8 @@ module.exports = {
               ht_qty: item.cr_qty,
               ht_total: item.cr_total
             }
+
+            await createHis(dataCart)
           }
 
           console.log(dataCart)
