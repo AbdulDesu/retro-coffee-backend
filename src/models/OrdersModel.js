@@ -1,7 +1,8 @@
 const dbConnect = require('../../config/db.config')
 
 const {
-  getAllCartByCsId
+  getAllCartByCsId,
+  deleteCartByCrId
 } = require('../models/CartModel')
 
 const {
@@ -33,7 +34,9 @@ module.exports = {
               ht_total: item.cr_total
             }
 
-            await createHis(dataCart)
+            if (await createHis(dataCart[i])) {
+              await deleteCartByCrId(item.cr_id)
+            }
           }
 
           console.log(dataCart)
