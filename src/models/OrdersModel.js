@@ -31,7 +31,8 @@ module.exports = {
               ht_product: item.cr_product,
               ht_price: item.cr_price,
               ht_qty: item.cr_qty,
-              ht_total: item.cr_total
+              ht_total: item.cr_total,
+              ht_pic_image: item.cr_pic_image
             }
 
             if (await createHis(dataCart[i])) {
