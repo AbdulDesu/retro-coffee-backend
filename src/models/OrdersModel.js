@@ -39,8 +39,6 @@ module.exports = {
             }
           }
 
-          console.log(dataCart)
-
           resolve(results)
         } else {
           reject(error)
