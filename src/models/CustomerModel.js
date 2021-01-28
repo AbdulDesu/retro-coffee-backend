@@ -35,7 +35,7 @@ module.exports = {
   getCustomerByCsIdModel: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT * FROM customer WHERE ?    
+        SELECT * FROM customer c JOIN account ac on (c.ac_id = ac.ac_id) WHERE ?    
       `
 
       dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {

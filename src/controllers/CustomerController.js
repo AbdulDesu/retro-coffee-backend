@@ -4,7 +4,8 @@ const {
   statusUpdate,
   statusUpdateFail,
   statusServerError,
-  statusNotFound
+  statusNotFound,
+  statusGet
 } = require('../helpers/status')
 
 module.exports = {
@@ -38,6 +39,22 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  getCustomerByCsId: async (req, res, _next) => {
+    const { csId } = req.params
+
+    try {
+      const result = await getCustomerByCsIdModel(csId)
+
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
       statusServerError(res)
     }
   }
