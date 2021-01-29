@@ -4,6 +4,7 @@ const router = express.Router()
 const {
   addProduct,
   getAllProduct,
+  getAllProductPromo,
   getAllProductByIdCategory,
   getProductById,
   getProductByCategory,
@@ -17,6 +18,7 @@ const uploadImage = require('../src/middleware/multer')
 const { authorization } = require('../src/middleware/auth')
 
 router.get('/', authorization, getAllProduct)
+router.get('/promo', authorization, getAllProductPromo)
 router.get('/category/:ctId', authorization, getAllProductByIdCategory)
 router.get('/:prId', authorization, getProductById)
 router.get('/filter/category', authorization, getProductByCategory)
