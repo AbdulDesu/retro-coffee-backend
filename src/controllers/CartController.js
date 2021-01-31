@@ -67,6 +67,9 @@ module.exports = {
   updateCartByCrId: async (req, res, _next) => {
     const { crId } = req.params
 
+    console.log(crId)
+    console.log(req.body)
+
     try {
       const findData = await getCartByCrId(crId)
 
