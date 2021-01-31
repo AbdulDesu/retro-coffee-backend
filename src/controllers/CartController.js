@@ -67,14 +67,16 @@ module.exports = {
   updateCartByCrId: async (req, res, _next) => {
     const { crId } = req.params
 
-    console.log(crId)
-    console.log(req.body)
-
     try {
       const findData = await getCartByCrId(crId)
 
+      const data = {
+        cr_qty: req.body.cr_qty,
+        cr_total: findData[0].cr_price * req.body.cr_qty
+      }
+
       if (findData.length) {
-        const result = await updateCartByCrId(crId, req.body)
+        const result = await updateCartByCrId(crId, data)
 
         if (result.affectedRows) {
           statusUpdate(res)
