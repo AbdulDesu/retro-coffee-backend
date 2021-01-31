@@ -95,6 +95,14 @@ module.exports = {
     })
   },
 
+  statusUpdateCustomer: (res, image) => {
+    res.status(200).send({
+      success: true,
+      message: 'Update data success',
+      image: image
+    })
+  },
+
   statusUpdateFail: (res) => {
     res.status(400).send({
       success: false,

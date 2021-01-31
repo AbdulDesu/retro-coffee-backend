@@ -1,7 +1,7 @@
 const { updateCustomerModel, getCustomerByCsIdModel } = require('../models/CustomerModel')
 
 const {
-  statusUpdate,
+  statusUpdateCustomer,
   statusUpdateFail,
   statusServerError,
   statusNotFound,
@@ -24,14 +24,11 @@ module.exports = {
         }
 
         delete data.image
-        console.log(req.body.image)
-        console.log(data)
-        console.log(csId)
 
         const result = await updateCustomerModel(csId, data)
 
         if (result.affectedRows) {
-          statusUpdate(res)
+          statusUpdateCustomer(res, findData[0].cs_pic_image)
         } else {
           statusUpdateFail(res)
         }
