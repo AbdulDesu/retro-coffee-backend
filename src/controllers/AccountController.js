@@ -6,7 +6,8 @@ const {
   getAccountByEmailModel,
   loginAccountModel,
   getAccountById,
-  updateAccountModel
+  updateAccountModel,
+  getEmailModel
 } = require('../models/AccountModel')
 
 const {
@@ -19,7 +20,8 @@ const {
   statusServerError,
   statusUpdate,
   statusUpdateFail,
-  statusNotFound
+  statusNotFound,
+  statusGet
 } = require('../helpers/status')
 
 module.exports = {
@@ -42,6 +44,7 @@ module.exports = {
       statusServerError(res)
     }
   },
+
   loginAccount: async (req, res) => {
     try {
       const { email, password } = req.body
@@ -59,7 +62,11 @@ module.exports = {
             ac_phone: login[0].ac_phone,
             ac_level: login[0].ac_level,
             ac_status: login[0].ac_status,
-            cs_id: login[0].cs_id
+            cs_id: login[0].cs_id,
+            cs_gender: login[0].cs_gender,
+            cs_dob: login[0].cs_dob,
+            cs_address: login[0].cs_address,
+            cs_pic_image: login[0].cs_pic_image
           }
           const token = jwt.sign(peyLoad, 'retrocoffee', { expiresIn: '7d' })
           peyLoad = { ...peyLoad, token }
@@ -78,6 +85,7 @@ module.exports = {
       statusServerError(res)
     }
   },
+
   updateAccount: async (req, res, _next) => {
     try {
       const { acId } = req.params
@@ -116,6 +124,21 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  getEmail: async (req, res, _next) => {
+    try {
+      const { email } = req.body
+      const result = await getEmailModel(email)
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      console.error(error)
       statusServerError(res)
     }
   }

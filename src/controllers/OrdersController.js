@@ -1,5 +1,6 @@
 const {
   createOrders,
+  updateOrdersStatus,
   getTransaction
 } = require('../models/OrdersModel')
 
@@ -22,7 +23,6 @@ module.exports = {
         statusCreateFail(res)
       }
     } catch (err) {
-      console.log(err)
       statusServerError(res)
     }
   },
@@ -39,7 +39,22 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (error) {
-      console.error(error)
+      statusServerError(res)
+    }
+  },
+
+  updateOrdersStatus: async (req, res, _next) => {
+    const { csId, orId } = req.query
+
+    try {
+      const result = await updateOrdersStatus(csId, orId, req.body)
+
+      if (result.affectedRows) {
+        statusCreate(res)
+      } else {
+        statusCreateFail(res)
+      }
+    } catch (err) {
       statusServerError(res)
     }
   }

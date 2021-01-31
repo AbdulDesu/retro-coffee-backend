@@ -4,6 +4,7 @@ const {
   addProductModel,
   getAllData,
   getAllProductModel,
+  getAllProductPromoModel,
   getAllProductByIdCategoryModel,
   getSearchProductModel,
   getProductByIDModel,
@@ -66,6 +67,49 @@ module.exports = {
       }
     } catch (error) {
       console.log(error)
+      statusServerError(res)
+    }
+  },
+
+  getAllProductPromo: async (req, res) => {
+    let { search, limit, page } = req.query
+
+    if (!limit) {
+      limit = 25
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const paginate = {
+      search: search,
+      limit: limit,
+      offset: (page - 1) * limit
+    }
+
+    try {
+      let result
+
+      if (isEmpty(search)) {
+        result = await getAllProductPromoModel(paginate)
+      } else {
+        result = await getSearchProductModel(paginate)
+      }
+
+      if (result.length) {
+        const totalData = await getAllData()
+        const totalPage = Math.ceil(totalData.length / limit)
+
+        statusGetPaginate(res, result, totalPage)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
       statusServerError(res)
     }
   },

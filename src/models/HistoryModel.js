@@ -8,11 +8,11 @@ module.exports = {
                         SET ?
               `
       dbConnect.query(query, data, (error, results, _fields) => {
-        console.log(results)
         if (!error) {
           resolve(results)
         } else {
           reject(error)
+          console.log(error)
         }
       })
     })
@@ -26,6 +26,23 @@ module.exports = {
       `
 
       dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+  getHisByOrId: (orId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM history
+         WHERE ?
+      `
+
+      dbConnect.query(query, { or_id: orId }, (error, results, _fields) => {
         if (!error) {
           resolve(results)
         } else {
