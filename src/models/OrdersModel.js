@@ -70,7 +70,7 @@ module.exports = {
   updateOrdersStatus: (csId, orId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
-          UPDATE account
+          UPDATE orders
              SET ?
            WHERE cs_id = ${csId}
              AND or_id = ${orId}
