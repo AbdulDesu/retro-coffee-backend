@@ -3,10 +3,14 @@ const router = express.Router()
 
 const {
   createOrders,
+  updateOrdersStatus,
   getAllTransaction
 } = require('../src/controllers/OrdersController')
 
-router.post('/', createOrders)
-router.get('/:csId', getAllTransaction)
+const { authorization } = require('../src/middleware/auth')
+
+router.post('/', authorization, createOrders)
+router.put('/', authorization, updateOrdersStatus)
+router.get('/:csId', authorization, getAllTransaction)
 
 module.exports = router

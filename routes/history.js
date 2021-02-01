@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const { createHistory, getAllHisByCsId } = require('../src/controllers/HistoryController')
+const { createHistory, getAllHisByCsId, getAllHisByOrId } = require('../src/controllers/HistoryController')
 
-router.post('/', createHistory)
-router.get('/:csId', getAllHisByCsId)
+const { authorization } = require('../src/middleware/auth')
 
+router.post('/', authorization, createHistory)
+router.get('/:csId', authorization, getAllHisByCsId)
+router.get('/detail/:orId', authorization, getAllHisByOrId)
 module.exports = router

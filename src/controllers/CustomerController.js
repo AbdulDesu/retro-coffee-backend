@@ -1,10 +1,11 @@
 const { updateCustomerModel, getCustomerByCsIdModel } = require('../models/CustomerModel')
 
 const {
-  statusUpdate,
+  statusUpdateCustomer,
   statusUpdateFail,
   statusServerError,
-  statusNotFound
+  statusNotFound,
+  statusGet
 } = require('../helpers/status')
 
 module.exports = {
@@ -23,14 +24,11 @@ module.exports = {
         }
 
         delete data.image
-        console.log(req.body.image)
-        console.log(data)
-        console.log(csId)
 
         const result = await updateCustomerModel(csId, data)
 
         if (result.affectedRows) {
-          statusUpdate(res)
+          statusUpdateCustomer(res, findData[0].cs_pic_image)
         } else {
           statusUpdateFail(res)
         }
@@ -38,6 +36,22 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  getCustomerByCsId: async (req, res, _next) => {
+    const { csId } = req.params
+
+    try {
+      const result = await getCustomerByCsIdModel(csId)
+
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
       statusServerError(res)
     }
   }
