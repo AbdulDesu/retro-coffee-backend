@@ -81,6 +81,14 @@ module.exports = {
     })
   },
 
+  statusCreateOrder: (res, result) => {
+    res.status(201).send({
+      success: true,
+      message: 'Add data success',
+      data: result
+    })
+  },
+
   statusCreateFail: (res) => {
     res.status(400).send({
       success: false,
