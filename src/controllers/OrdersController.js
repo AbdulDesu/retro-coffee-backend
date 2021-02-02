@@ -7,6 +7,7 @@ const {
 const {
   statusGet,
   statusCreate,
+  statusCreateOrder,
   statusCreateFail,
   statusServerError,
   statusNotFound
@@ -17,6 +18,7 @@ module.exports = {
     try {
       const result = await createOrders(req.body)
 
+      console.log(result)
       if (result.affectedRows) {
         statusCreate(res)
       } else {
