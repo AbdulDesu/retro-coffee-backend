@@ -167,6 +167,35 @@ module.exports = {
     })
   },
 
+  searchProductModel: (searchKey, searchValue, limit, offset, callback) => {
+    dbConnect.query(`
+    SELECT 
+    p.pr_id, 
+    ct.ct_id, 
+    ct.ct_name,
+    ct.ct_pic_image,
+    p.pr_name, 
+    p.pr_price, 
+    p.pr_desc,
+    p.pr_discount,
+    p.pr_discount_price,
+    p.pr_is_discount, 
+    p.pr_status,
+    p.pr_pic_image,
+    p.pr_created_at,
+    p.pr_updated_at
+    FROM product as p
+    INNER JOIN category as ct
+    ON p.ct_id = ct.ct_id
+    WHERE ${searchKey} LIKE '%${searchValue}%' ORDER BY p.pr_id DESC LIMIT ${limit} OFFSET ${offset}`, (err, result, fields) => {
+      if (!err) {
+        callback(result)
+      } else {
+        callback(err)
+      }
+    })
+  },
+
   getProductByCategoryNameModel: (searchKey, searchValue, limit, offset, callback) => {
     dbConnect.query(`
     SELECT 
