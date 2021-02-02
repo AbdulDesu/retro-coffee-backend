@@ -33,7 +33,7 @@ module.exports = {
 
   statusCheckPasswordFail: (res) => {
     res.status(400).send({
-      success: true,
+      success: false,
       message: 'Password is invalid'
     })
   },
