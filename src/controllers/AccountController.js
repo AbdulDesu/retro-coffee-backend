@@ -16,6 +16,8 @@ const {
   statusRegistrationUnique,
   statusLogin,
   statusLoginFail,
+  statusCheckPassword,
+  statusCheckPasswordFail,
   statusNotFoundAccount,
   statusServerError,
   statusUpdate,
@@ -141,6 +143,28 @@ module.exports = {
       }
     } catch (error) {
       console.error(error)
+      statusServerError(res)
+    }
+  },
+
+  checkPassword: async (req, res) => {
+    try {
+      const { acId, password } = req.body
+
+      const result = await getAccountById(acId)
+
+      if (result.length) {
+        const cekPsw = bcrypt.compareSync(password, result[0].ac_password)
+
+        if (cekPsw) {
+          statusCheckPassword(res)
+        } else {
+          statusCheckPasswordFail(res)
+        }
+      } else {
+        statusNotFoundAccount(res)
+      }
+    } catch (error) {
       statusServerError(res)
     }
   }
