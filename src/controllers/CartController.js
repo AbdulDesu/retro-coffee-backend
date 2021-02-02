@@ -25,8 +25,10 @@ module.exports = {
       const findData = await getCartByNameId(req.body.cs_id, req.body.cr_product)
 
       if (findData.length) {
+        const qty = Number(req.body.cr_qty) + Number(1)
+
         const data = {
-          cr_qty: (req.body.cr_qty + 1),
+          cr_qty: qty,
           cr_total: findData[0].cr_price * req.body.cr_qty
         }
 
