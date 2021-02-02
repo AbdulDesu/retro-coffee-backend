@@ -8,6 +8,7 @@ const {
   getAllProductByIdCategoryModel,
   getSearchProductModel,
   getProductByIDModel,
+  searchProductModel,
   getProductByCategoryNameModel,
   getProductByHigherModel,
   getProductByLowerModel,
@@ -198,6 +199,42 @@ module.exports = {
       console.error(error)
       statusServerError(res)
     }
+  },
+  
+  searchProduct: (req, res) => {
+    let { search, limit, page } = req.query
+    let searchKey = ''
+    let searchValue = ''
+
+    if (typeof search === 'object') {
+      searchKey = Object.keys(search)[0]
+      searchValue = Object.values(search)[0]
+    } else {
+      searchKey = 'pr_name'
+      searchValue = search || ''
+    }
+
+    if (!limit) {
+      limit = 50
+    } else {
+      limit = parseInt(limit)
+    }
+
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+
+    const offset = (page - 1) * limit
+
+    searchProductModel(searchKey, searchValue, limit, offset, result => {
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    })
   },
 
   getProductByCategory: (req, res) => {
