@@ -1,4 +1,11 @@
-const { createCart, getAllCartByCsId, getCartByCrId, deleteCartByCrId, updateCartByCrId } = require('../models/CartModel')
+const {
+  createCart,
+  getAllCartByCsId,
+  getCartByCrId,
+  getCartByNameId,
+  deleteCartByCrId,
+  updateCartByCrId
+} = require('../models/CartModel')
 
 const {
   statusGet,
@@ -15,14 +22,31 @@ const {
 module.exports = {
   createCart: async (req, res, _next) => {
     try {
-      const result = await createCart(req.body)
-      if (result.affectedRows) {
-        statusCreate(res)
+      const findData = await getCartByNameId(req.body.cs_id, req.body.cr_product)
+
+      if (findData.length) {
+        const data = {
+          cr_qty: req.body.cr_qty,
+          cr_total: findData[0].cr_price * req.body.cr_qty
+        }
+
+        const result = await updateCartByCrId(findData[0].cr_id, data)
+
+        if (result.affectedRows) {
+          statusUpdate(res)
+        } else {
+          statusUpdateFail(res)
+        }
       } else {
-        statusCreateFail(res)
+        const result = await createCart(req.body)
+
+        if (result.affectedRows) {
+          statusCreate(res)
+        } else {
+          statusCreateFail(res)
+        }
       }
     } catch (err) {
-      console.error(err)
       statusServerError(res)
     }
   },

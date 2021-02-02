@@ -54,6 +54,25 @@ module.exports = {
     })
   },
 
+  getCartByNameId: (csId, crProduct) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM cart
+         WHERE cs_id = ${csId}
+           AND cr_product = ${crProduct}
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
   deleteCartByCrId: (crId) => {
     return new Promise((resolve, reject) => {
       const query = `
