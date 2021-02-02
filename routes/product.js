@@ -7,6 +7,7 @@ const {
   getAllProductPromo,
   getAllProductByIdCategory,
   getProductById,
+  searchProduct,
   getProductByCategory,
   getProductByHigherPrice,
   getProductByLowerPrice,
@@ -21,6 +22,7 @@ router.get('/', authorization, getAllProduct)
 router.get('/promo', authorization, getAllProductPromo)
 router.get('/category/:ctId', authorization, getAllProductByIdCategory)
 router.get('/:prId', authorization, getProductById)
+router.get('/filter/name', authorization, searchProduct)
 router.get('/filter/category', authorization, getProductByCategory)
 router.get('/filter/higher', authorization, getProductByHigherPrice)
 router.get('/filter/lower', authorization, getProductByLowerPrice)
