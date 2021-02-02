@@ -19,9 +19,14 @@ module.exports = {
     try {
       const result = await createOrders(req.body)
 
-      console.log(result)
       if (result.affectedRows) {
-        statusCreate(res)
+        const findData = await getTransactionById(req.body.cs_id, result.insertId)
+
+        if (findData.length) {
+          statusCreateOrder(res, findData)
+        } else {
+          statusNotFound(res)
+        }
       } else {
         statusCreateFail(res)
       }
