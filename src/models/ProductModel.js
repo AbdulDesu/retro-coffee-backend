@@ -91,8 +91,7 @@ module.exports = {
           FROM product p
           JOIN category ct
             ON p.ct_id = ct.ct_id
-         WHERE p.pr_is_discount = 0
-           AND p.ct_id = ${paginate.ctId}
+         WHERE p.ct_id = ${paginate.ctId}
       ORDER BY p.pr_id DESC 
         LIMIT ${paginate.limit}
         OFFSET ${paginate.offset}

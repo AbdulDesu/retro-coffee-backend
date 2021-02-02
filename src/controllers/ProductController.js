@@ -200,7 +200,7 @@ module.exports = {
       statusServerError(res)
     }
   },
-  
+
   searchProduct: (req, res) => {
     let { search, limit, page } = req.query
     let searchKey = ''
