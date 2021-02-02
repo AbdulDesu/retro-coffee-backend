@@ -26,7 +26,7 @@ module.exports = {
 
       if (findData.length) {
         const data = {
-          cr_qty: req.body.cr_qty + 1,
+          cr_qty: (req.body.cr_qty + 1),
           cr_total: findData[0].cr_price * req.body.cr_qty
         }
 
