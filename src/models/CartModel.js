@@ -60,7 +60,7 @@ module.exports = {
         SELECT *
           FROM cart
          WHERE cs_id = ${csId}
-           AND cr_product = ${crProduct}
+           AND cr_product = "${crProduct}"
       `
 
       dbConnect.query(query, (error, results, _fields) => {
