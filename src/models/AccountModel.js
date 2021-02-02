@@ -106,7 +106,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const query = `
           SELECT *
-            FROM account
+            FROM account ac 
+            JOIN customer cs 
+              ON (ac.ac_id = cs.ac_id)
            WHERE ?
       `
 
