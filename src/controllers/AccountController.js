@@ -131,7 +131,9 @@ module.exports = {
   getEmail: async (req, res, _next) => {
     try {
       const { email } = req.body
+
       const result = await getEmailModel(email)
+
       if (result.length) {
         statusGet(res, result)
       } else {
