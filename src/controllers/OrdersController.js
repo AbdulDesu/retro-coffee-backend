@@ -1,7 +1,8 @@
 const {
   createOrders,
   updateOrdersStatus,
-  getTransaction
+  getTransaction,
+  getTransactionById
 } = require('../models/OrdersModel')
 
 const {
@@ -34,6 +35,22 @@ module.exports = {
 
     try {
       const result = await getTransaction(csId)
+
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
+      statusServerError(res)
+    }
+  },
+
+  getAllTransactionById: async (req, res, _next) => {
+    const { csId, orId } = req.query
+
+    try {
+      const result = await getTransactionById(csId, orId)
 
       if (result.length) {
         statusGet(res, result)
