@@ -2,8 +2,8 @@ const mysql = require('mysql')
 
 const conn = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',
+  user: 'retro',
+  password: '123456',
   database: 'db_retro_coffee'
 })
 
