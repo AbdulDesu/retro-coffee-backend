@@ -24,6 +24,20 @@ module.exports = {
     })
   },
 
+  statusCheckPassword: (res) => {
+    res.status(200).send({
+      success: true,
+      message: 'Password is valid'
+    })
+  },
+
+  statusCheckPasswordFail: (res) => {
+    res.status(400).send({
+      success: true,
+      message: 'Password is invalid'
+    })
+  },
+
   statusLoginRequired: (res, result) => {
     res.status(400).send({
       success: false,
