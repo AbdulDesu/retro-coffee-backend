@@ -67,6 +67,26 @@ module.exports = {
     })
   },
 
+  getTransactionById: (csId, orId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM orders
+         WHERE cs_id = ${csId}
+           AND or_id = ${orId}
+      ORDER BY or_id DESC
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
   updateOrdersStatus: (csId, orId, data) => {
     return new Promise((resolve, reject) => {
       const query = `
