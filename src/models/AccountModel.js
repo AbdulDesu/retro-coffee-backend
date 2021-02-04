@@ -19,7 +19,10 @@ module.exports = {
 
       dbConnect.query(query, dataAcc, async (err, res, _fields) => {
         if (!err) {
-          await createCustomerModel(res.insertId)
+          if (data.ac_level === 1) {
+            await createCustomerModel(res.insertId)
+          }
+
           resolve(res)
         } else {
           reject(err)
