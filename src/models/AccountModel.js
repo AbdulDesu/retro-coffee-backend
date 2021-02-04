@@ -10,7 +10,7 @@ module.exports = {
       if (data.ac_level === undefined || data.ac_level == null) {
         level = 1
       } else {
-        level = 0
+        level = data.ac_level
       }
 
       const dataAcc = {
