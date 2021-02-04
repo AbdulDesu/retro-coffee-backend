@@ -60,13 +60,26 @@ module.exports = {
     })
   },
 
-  loginAccountModel: (email) => {
+  loginAccountModel: (email, level) => {
     return new Promise((resolve, reject) => {
-      const query = `
-        SELECT *
-        FROM account ac join customer cs ON (ac.ac_id = cs.ac_id)
-        WHERE ?
-      `
+      let query
+
+      if (level === undefined || level == null) {
+        query = `
+          SELECT *
+            FROM account ac 
+            JOIN customer cs 
+              ON (ac.ac_id = cs.ac_id)
+           WHERE ?
+        `
+      } else {
+        query = `
+          SELECT *
+            FROM account
+           WHERE ?
+        `
+      }
+
       dbConnect.query(query, { ac_email: email }, (error, results, _fields) => {
         if (!error) {
           resolve(results)

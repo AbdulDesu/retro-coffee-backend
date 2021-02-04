@@ -49,9 +49,9 @@ module.exports = {
 
   loginAccount: async (req, res) => {
     try {
-      const { email, password } = req.body
+      const { email, password, level } = req.body
 
-      const login = await loginAccountModel(email)
+      const login = await loginAccountModel(email, level)
 
       if (login.length > 0) {
         let peyLoad
