@@ -5,11 +5,20 @@ const { createCustomerModel } = require('../models/CustomerModel')
 module.exports = {
   createAccountModel: (data) => {
     return new Promise((resolve, reject) => {
+      let level
+
+      if (data.ac_level === undefined || data.ac_level == null) {
+        level = 1
+      } else {
+        level = 0
+      }
+
       const dataAcc = {
         ac_name: data.ac_name,
         ac_email: data.ac_email,
         ac_phone: data.ac_phone,
-        ac_password: data.ac_password
+        ac_password: data.ac_password,
+        ac_level: level
       }
 
       const query = `
@@ -19,7 +28,7 @@ module.exports = {
 
       dbConnect.query(query, dataAcc, async (err, res, _fields) => {
         if (!err) {
-          if (data.ac_level === 1) {
+          if (level === 1) {
             await createCustomerModel(res.insertId)
           }
 
