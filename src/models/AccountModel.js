@@ -28,10 +28,7 @@ module.exports = {
 
       dbConnect.query(query, dataAcc, async (err, res, _fields) => {
         if (!err) {
-          if (level === 1) {
-            await createCustomerModel(res.insertId)
-          }
-
+          await createCustomerModel(res.insertId)
           resolve(res)
         } else {
           reject(err)
@@ -60,25 +57,15 @@ module.exports = {
     })
   },
 
-  loginAccountModel: (email, level) => {
+  loginAccountModel: (email) => {
     return new Promise((resolve, reject) => {
-      let query
-
-      if (level === undefined || level == null) {
-        query = `
+      const query = `
           SELECT *
             FROM account ac 
             JOIN customer cs 
               ON (ac.ac_id = cs.ac_id)
            WHERE ?
         `
-      } else {
-        query = `
-          SELECT *
-            FROM account
-           WHERE ?
-        `
-      }
 
       dbConnect.query(query, { ac_email: email }, (error, results, _fields) => {
         if (!error) {
