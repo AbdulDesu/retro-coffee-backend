@@ -39,7 +39,7 @@ module.exports = {
   getAllTransactionCustomer: async (_req, res, _next) => {
     try {
       const result = await getTransactionCustomer()
-
+      console.log(result)
       if (result.length) {
         statusGet(res, result)
       } else {
