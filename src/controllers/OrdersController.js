@@ -1,6 +1,7 @@
 const {
   createOrders,
   updateOrdersStatus,
+  getTransactionCustomer,
   getTransaction,
   getTransactionById
 } = require('../models/OrdersModel')
@@ -31,6 +32,20 @@ module.exports = {
         statusCreateFail(res)
       }
     } catch (err) {
+      statusServerError(res)
+    }
+  },
+
+  getAllTransactionCustomer: async (_req, res, _next) => {
+    try {
+      const result = await getTransactionCustomer()
+
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        statusNotFound(res)
+      }
+    } catch (error) {
       statusServerError(res)
     }
   },

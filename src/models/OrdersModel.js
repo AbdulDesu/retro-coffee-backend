@@ -48,6 +48,24 @@ module.exports = {
     })
   },
 
+  getTransactionCustomer: () => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT *
+          FROM orders
+      ORDER BY or_id DESC
+      `
+
+      dbConnect.query(query, (error, results, _fields) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
+
   getTransaction: (csId) => {
     return new Promise((resolve, reject) => {
       const query = `
