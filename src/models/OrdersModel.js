@@ -58,6 +58,7 @@ module.exports = {
 
       dbConnect.query(query, (error, results, _fields) => {
         if (!error) {
+          console.log(results)
           resolve(results)
         } else {
           reject(error)
