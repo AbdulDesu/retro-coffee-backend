@@ -53,7 +53,6 @@ module.exports = {
       const query = `
         SELECT *
           FROM orders
-      ORDER BY or_id DESC
       `
 
       dbConnect.query(query, (error, results, _fields) => {
