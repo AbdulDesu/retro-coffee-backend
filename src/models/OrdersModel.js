@@ -6,7 +6,8 @@ const {
 } = require('../models/CartModel')
 
 const {
-  createHis
+  createHis,
+  getHisByOrId
 } = require('../models/HistoryModel')
 
 module.exports = {
@@ -56,12 +57,14 @@ module.exports = {
       ORDER BY or_id DESC
       `
 
-      dbConnect.query(query, (error, results, _fields) => {
+      dbConnect.query(query, async (error, results, _fields) => {
         if (!error) {
           const data = []
 
           for (let i = 0; i < results.length; i++) {
             const item = results[i]
+
+            const itemHistory = await getHisByOrId(item.or_id)
 
             data[i] = {
               or_id: item.or_id,
@@ -75,11 +78,12 @@ module.exports = {
               or_note_approve: item.or_note_approve,
               or_method_payment: item.or_method_payment,
               or_fee: item.or_fee,
-              or_date_order: item.or_date_order
+              or_date_order: item.or_date_order,
+              history_product: itemHistory
             }
           }
 
-          resolve(results)
+          resolve(data)
         } else {
           reject(error)
         }
