@@ -21,11 +21,9 @@ module.exports = {
     try {
       const result = await getAllCategoryModel()
 
-      console.error(result)
       if (result.length) {
         statusGet(res, result)
       } else {
-        console.error('testing')
         statusNotFound(res)
       }
     } catch (error) {

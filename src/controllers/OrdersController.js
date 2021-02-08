@@ -40,9 +40,11 @@ module.exports = {
     try {
       const result = await getTransactionCustomer()
 
+      console.error('testing')
       if (result.length) {
         statusGet(res, result)
       } else {
+        console.error('testing')
         statusNotFound(res)
       }
     } catch (error) {
