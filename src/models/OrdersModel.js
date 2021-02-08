@@ -57,7 +57,7 @@ module.exports = {
             ON (cs.cs_id = or.cs_id)
           JOIN account ac
             ON (ac.ac_id = cs.ac_id)
-      ORDER BY or_id DESC
+      ORDER BY or.or_id DESC
       `
 
       dbConnect.query(query, (error, results, _fields) => {
