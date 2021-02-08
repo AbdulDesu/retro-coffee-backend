@@ -52,8 +52,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
-          FROM orders or
-      ORDER BY or.or_id DESC
+          FROM orders
+      ORDER BY or_id DESC
       `
 
       dbConnect.query(query, (error, results, _fields) => {
