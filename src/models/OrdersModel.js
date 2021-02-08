@@ -52,7 +52,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const query = `
         SELECT *
-          FROM orders
+          FROM orders or
+          JOIN customer cs
+            ON (cs.cs_id = or.cs_id)
+          JOIN account ac
+            ON (ac.ac_id = cs.ac_id)
       ORDER BY or_id DESC
       `
 
