@@ -54,7 +54,9 @@ module.exports = {
         SELECT *
           FROM orders or
           JOIN customer cs
-            ON (cs.cs_id = or.cs_id)
+            ON cs.cs_id = or.cs_id
+          JOIN account ac
+            ON ac.ac_id = cs.ac_id
       ORDER BY or.or_id DESC
       `
 
