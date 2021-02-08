@@ -53,7 +53,7 @@ module.exports = {
       const query = `
         SELECT *
           FROM orders or
-          JOIN customer cs
+     LEFT JOIN customer cs
             ON cs.cs_id = or.cs_id
           JOIN account ac
             ON ac.ac_id = cs.ac_id
