@@ -16,15 +16,16 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
-  getAllOrder: async (_req, res, _next) => {
+  getAllOrder: async (req, res, _next) => {
+    const { orId } = req.query
+    console.error(`ID ORDER : ${orId}`)
+
     try {
       const result = await getAllOrder()
 
-      console.error('testing')
       if (result.length) {
         statusGet(res, result)
       } else {
-        console.error('testing')
         statusNotFound(res)
       }
     } catch (error) {
