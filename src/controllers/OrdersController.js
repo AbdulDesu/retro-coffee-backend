@@ -1,7 +1,7 @@
 const {
   createOrders,
   updateOrdersStatus,
-  getTransactionCustomer,
+  getAllOrder,
   getTransaction,
   getTransactionById
 } = require('../models/OrdersModel')
@@ -16,6 +16,23 @@ const {
 } = require('../helpers/status')
 
 module.exports = {
+  getAllOrder: async (_req, res, _next) => {
+    try {
+      const result = await getAllOrder()
+
+      console.error('testing')
+      if (result.length) {
+        statusGet(res, result)
+      } else {
+        console.error('testing')
+        statusNotFound(res)
+      }
+    } catch (error) {
+      console.error(error)
+      statusServerError(res)
+    }
+  },
+
   createOrders: async (req, res, _next) => {
     try {
       const result = await createOrders(req.body)
@@ -32,23 +49,6 @@ module.exports = {
         statusCreateFail(res)
       }
     } catch (err) {
-      statusServerError(res)
-    }
-  },
-
-  getAllOrder: async (_req, res, _next) => {
-    try {
-      const result = await getTransactionCustomer()
-
-      console.error('testing')
-      if (result.length) {
-        statusGet(res, result)
-      } else {
-        console.error('testing')
-        statusNotFound(res)
-      }
-    } catch (error) {
-      console.error(error)
       statusServerError(res)
     }
   },
