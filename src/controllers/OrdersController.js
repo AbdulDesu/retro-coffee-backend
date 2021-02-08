@@ -36,9 +36,7 @@ module.exports = {
     }
   },
 
-  getAllTransactionCustomer: async (_req, res, _next) => {
-    console.log('Testing Testing Testing')
-
+  getAllOrder: async (_req, res, _next) => {
     try {
       const result = await getTransactionCustomer()
 
@@ -48,6 +46,7 @@ module.exports = {
         statusNotFound(res)
       }
     } catch (error) {
+      console.error(error)
       statusServerError(res)
     }
   },
