@@ -15,6 +15,6 @@ router.post('/', authorization, createOrders)
 router.put('/', authorization, updateOrdersStatus)
 router.get('/:csId', authorization, getAllTransaction)
 router.get('/', authorization, getAllTransactionById)
-router.get('/customer', authorization, getAllTransactionCustomer)
+router.get('/customer', authorization, getAllTransaction)
 
 module.exports = router
