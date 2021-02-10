@@ -100,9 +100,30 @@ module.exports = {
       ORDER BY or_id DESC
       `
 
-      dbConnect.query(query, { cs_id: csId }, (error, results, _fields) => {
+      dbConnect.query(query, { cs_id: csId }, async (error, results, _fields) => {
         if (!error) {
-          resolve(results)
+          const data = []
+
+          for (let i = 0; i < results.length; i++) {
+            const item = results[i]
+            const itemHistory = await getHisByOrId(item.or_id)
+            data[i] = {
+              or_id: item.or_id,
+              cs_id: item.cs_id,
+              or_pay_total: item.or_pay_total,
+              or_address: item.or_address,
+              or_latitude: item.or_latitude,
+              or_longitude: item.or_longitude,
+              or_status: item.or_status,
+              or_note_cancel: item.or_note_cancel,
+              or_note_approve: item.or_note_approve,
+              or_method_payment: item.or_method_payment,
+              or_fee: item.or_fee,
+              or_date_order: item.or_date_order,
+              history_product: itemHistory
+            }
+          }
+          resolve(data)
         } else {
           reject(error)
         }
